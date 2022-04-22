@@ -1,0 +1,179 @@
+package com.lcomputerstudy1.testmvc.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import com.lcomputerstudy1.testmvc.database.DBConnection;
+import com.lcomputerstudy1.testmvc.vo.Board;
+import com.lcomputerstudy1.testmvc.vo.Pagination;
+import com.lcomputerstudy1.testmvc.vo.User;
+
+public class BoardDAO {
+	
+	private static BoardDAO dao = null;
+    
+	private BoardDAO() {
+		
+	}
+
+	public static BoardDAO getInstance() {
+		if(dao == null) {
+			dao = new BoardDAO();
+		}
+		return dao;
+	}
+
+	public ArrayList<Board> getBoards() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Board> list = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from board";
+	       	pstmt = conn.prepareStatement(query);
+	        rs = pstmt.executeQuery();
+	        list = new ArrayList<Board>();
+
+	        while(rs.next()){     
+	        	Board Board = new Board();
+	        	Board.setb_title(rs.getString("b_title"));
+	        	Board.setb_count(rs.getString("b_count"));
+	        	Board.setb_content(rs.getString("b_content"));
+	        	Board.setb_date(rs.getString("b_date"));
+	        	Board.setb_writer(rs.getString("b_writer"));
+	        	Board.setb_idx(rs.getInt("b_idx"));
+	        	
+	        	list.add(Board);
+	        }
+		} catch (Exception e) {
+			
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	public void insertBoard(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "insert into board(b_title,b_count,b_content,b_date,b_writer) values(?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getb_title());
+			pstmt.setString(2, board.getb_count());
+			pstmt.setString(3, board.getb_content());
+			pstmt.setString(4, board.getb_date());
+			pstmt.setString(5, board.getb_writer());
+			pstmt.executeUpdate();
+		} catch( Exception ex) {
+			System.out.println("SQLException : "+ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}	
+	
+	public Board getDetail(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from board where b_idx = ?";
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setInt(1, board.getb_idx());
+	        rs = pstmt.executeQuery();
+
+	        while(rs.next()){     
+	        	board= new Board();
+       	       	board.setb_title(rs.getString("b_title"));
+       	       	board.setb_writer(rs.getString("b_writer"));
+       	       	board.setb_date(rs.getString("b_date"));
+       	       	board.setb_content(rs.getString("b_content"));
+       	       	board.setb_count(rs.getString("b_count"));
+       	       	board.setb_idx(rs.getInt("b_idx"));
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return board;
+	}
+	public void editBoard(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "UPDATE board SET b_title = ?,b_writer = ?,b_count = ?,b_content = ?,b_date = ? where b_idx= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getb_title());
+			pstmt.setString(2, board.getb_writer());
+			pstmt.setString(3, board.getb_count());
+			pstmt.setString(4, board.getb_content());
+			pstmt.setString(5, board.getb_date());
+			pstmt.setInt(6, board.getb_idx());
+			pstmt.executeUpdate();
+		} catch( Exception ex) {
+			System.out.println("SQLException : "+ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void getdelete(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "delete from board where b_idx=?";
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setInt(1, board.getb_idx());
+	        pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}    
+	}
+
+}
+
+
+
