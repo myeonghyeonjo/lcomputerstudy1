@@ -224,7 +224,7 @@ public class controller extends HttpServlet {
 				
 				boardService = BoardService.getInstance();
 				board = boardService.getDetail(board);
-				request.setAttribute("board", board); // test
+				request.setAttribute("board", board); // testxx
 				view = "board/edit";				
 				break;
 				
