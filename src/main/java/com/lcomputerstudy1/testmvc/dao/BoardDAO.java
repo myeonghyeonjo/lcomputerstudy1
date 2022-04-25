@@ -41,7 +41,7 @@ public class BoardDAO {
 	        while(rs.next()){     
 	        	Board Board = new Board();
 	        	Board.setb_title(rs.getString("b_title"));
-	        	Board.setb_count(rs.getString("b_count"));
+	        	Board.setb_count(rs.getInt("b_count"));
 	        	Board.setb_content(rs.getString("b_content"));
 	        	Board.setb_date(rs.getString("b_date"));
 	        	Board.setb_writer(rs.getString("b_writer"));
@@ -72,7 +72,7 @@ public class BoardDAO {
 			String sql = "insert into board(b_title,b_count,b_content,b_date,b_writer) values(?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getb_title());
-			pstmt.setString(2, board.getb_count());
+			pstmt.setInt(2, board.getb_count());
 			pstmt.setString(3, board.getb_content());
 			pstmt.setString(4, board.getb_date());
 			pstmt.setString(5, board.getb_writer());
@@ -93,6 +93,9 @@ public class BoardDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		int ncount = board.getb_count()+1;
+		
+		
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -100,14 +103,15 @@ public class BoardDAO {
 	       	pstmt = conn.prepareStatement(query);
 	       	pstmt.setInt(1, board.getb_idx());
 	        rs = pstmt.executeQuery();
-
-	        while(rs.next()){     
+	        
+	        while(rs.next()){
+	        	
 	        	board= new Board();
        	       	board.setb_title(rs.getString("b_title"));
        	       	board.setb_writer(rs.getString("b_writer"));
        	       	board.setb_date(rs.getString("b_date"));
        	       	board.setb_content(rs.getString("b_content"));
-       	       	board.setb_count(rs.getString("b_count"));
+       	       	board.setb_count(ncount);
        	       	board.setb_idx(rs.getInt("b_idx"));
 	        }
 		} catch (Exception e) {
@@ -134,7 +138,7 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getb_title());
 			pstmt.setString(2, board.getb_writer());
-			pstmt.setString(3, board.getb_count());
+			pstmt.setInt(3, board.getb_count());
 			pstmt.setString(4, board.getb_content());
 			pstmt.setString(5, board.getb_date());
 			pstmt.setInt(6, board.getb_idx());
@@ -171,6 +175,33 @@ public class BoardDAO {
 				e.printStackTrace();
 			}
 		}    
+	}
+	
+	public void getdate(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "insert into board(b_title,b_count,b_content,b_date,b_writer) values(?,?,?,?,?)";
+			String a = "select getdate() from board";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getb_title());
+			pstmt.setInt(2, board.getb_count());
+			pstmt.setString(3, board.getb_content());
+			pstmt.setString(4, a);
+			pstmt.setString(5, board.getb_writer());
+			pstmt.executeUpdate();
+		} catch( Exception ex) {
+			System.out.println("SQLException : "+ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

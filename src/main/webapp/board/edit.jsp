@@ -12,9 +12,7 @@
 <input type="hidden" name="b_idx" value="${board.b_idx}">
 	<p> 제목 : <input type="text" name="title" value="${board.b_title}"></p>
 	<p> 작성자 : <input type="text" name="writer"  value="${board.b_writer}"></p>
-	<p> 조회수 : <input type="text" name="count" value="${board.b_count}"></p>
 	<p> 내용 : <input type="text"  name="content" value="${board.b_content}" ></p>
-	<p> 작성일시 : <input type="text" name="date" value="${board.b_date}"></p>
 	<p> <input type="submit" value="수정하기"></p>
 </form>
 

@@ -1,5 +1,8 @@
 package com.lcomputerstudy1.testmvc.controller;
 
+
+import java.util.*;
+import java.text.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -27,6 +30,15 @@ public class controller extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
+		
+		
+		Calendar cal = Calendar.getInstance();
+		Date currentTime = cal.getTime();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		String ndate = formatter.format(currentTime);
+
+		
+		
 		
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
@@ -193,9 +205,9 @@ public class controller extends HttpServlet {
 			case "/board-insert-process.do":
 				board = new Board();
 				board.setb_title(request.getParameter("title"));
-				board.setb_count(request.getParameter("count"));
+				board.setb_count(0);
 				board.setb_content(request.getParameter("content"));
-				board.setb_date(request.getParameter("date"));
+				board.setb_date(ndate);
 				board.setb_writer(request.getParameter("writer"));
 				
 				
@@ -206,7 +218,6 @@ public class controller extends HttpServlet {
 				break;
 				
 			case "/board-detail.do":
-				
 				board = new Board();
 				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
 				
@@ -233,8 +244,7 @@ public class controller extends HttpServlet {
 				
 				board.setb_title(request.getParameter("title"));
 				board.setb_writer(request.getParameter("writer"));
-				board.setb_date(request.getParameter("date"));
-				board.setb_count(request.getParameter("count"));
+				board.setb_date(ndate);
 				board.setb_content(request.getParameter("content"));
 				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
 				

@@ -4,7 +4,7 @@ public class Board {
 	
 	
 	private String b_title;
-	private String b_count;
+	private int b_count;
 	private String b_content;
 	private String b_date;
 	private String b_writer;
@@ -16,10 +16,10 @@ public class Board {
 	public void setb_title(String b_title) {
 		this.b_title =  b_title;
 	}
-	public String getb_count() {
+	public int getb_count() {
 		return b_count;
 	}
-	public void setb_count(String b_count) {
+	public void setb_count(int b_count) {
 		this.b_count = b_count;
 	}
 	public String getb_content() {
