@@ -33,7 +33,6 @@ public class BoardService {
 	}
 
 	public Board getDetail(Board board) {
-		dao.updatecount(board);
 		return dao.getDetail(board);
 	}
 
@@ -43,11 +42,6 @@ public class BoardService {
 
 	public void getdelete(Board board) {
 		dao.getdelete(board);
-		
-	}
-
-	public void updatecount(Board board) {
-		dao.updatecount(board);
 		
 	}
 }

@@ -53,8 +53,6 @@ public class controller extends HttpServlet {
 		
 		int usercount = 0;
 		int page = 1;
-		int count = 0;
-		
 		String pw = null;
 		String idx = null;
 		HttpSession session = null;
@@ -193,17 +191,6 @@ public class controller extends HttpServlet {
 				
 				
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			case "/board-list.do":
 				boardService = BoardService.getInstance();
 				ArrayList<Board> list1 = boardService.getBoards();
@@ -233,13 +220,6 @@ public class controller extends HttpServlet {
 			case "/board-detail.do":
 				board = new Board();
 				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
-				
-				
-			
-				
-				
-				
-				
 				
 				boardService = BoardService.getInstance();
 				board = boardService.getDetail(board);
@@ -283,13 +263,6 @@ public class controller extends HttpServlet {
 				request.setAttribute("board", board);
 				view = "board/delete";
 				break;
-				
-				
-			case "/board-reply.do":
-				board = new Board();
-				
-				
-				view = "board/reply";
 				
 				
 		}
