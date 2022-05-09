@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="lcomputerstudy1/src/main/java"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="lib" path="lcomputerstudy1/src/main/webapp/WEB-INF/lib/mariadb-java-client-2.7.2 .jar"/>
+	<classpathentry kind="lib" path="lcomputerstudy1/src/main/webapp/WEB-INF/lib/taglibs-standard-compat-1.2.5.jar"/>
+	<classpathentry kind="lib" path="lcomputerstudy1/src/main/webapp/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="lcomputerstudy1/src/main/webapp/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar"/>
+	<classpathentry kind="lib" path="lcomputerstudy1/src/main/webapp/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mariadb-java-client-2.7.2 .jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/taglibs-standard-compat-1.2.5.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
