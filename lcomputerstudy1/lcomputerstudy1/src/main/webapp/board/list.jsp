@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
 	table tr td, table tr th {
 		border:1px solid #818181;
 		width:200px;
-		text-align:center;
+		
 	}
 	a {
 		text-decoration:none;
@@ -36,11 +37,20 @@
 			
 		</tr>
 		<c:forEach items="${list}" var="item">
-			 <tr>
-				<td><a href="board-detail.do?b_idx=${item.b_idx}">${item.b_title}</a></td>
-				<td>${item.b_writer}</td>
-				<td>${item.b_date}</td> 
-				<td>${item.b_count}</td>
+			<tr>
+			 		<td> 
+			 			<c:if test="${item.b_depth > 0}">
+                        	<c:forEach begin="1" end="${item.b_depth}">
+                            	&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
+                        	</c:forEach>
+                        		RE : 
+                    	</c:if>
+					<a href="board-detail.do?b_idx=${item.b_idx}">${item.b_title}</a>
+					</td>
+			 		<td>${item.b_writer}</td>
+					<td>${item.b_date}</td> 
+					<td>${item.b_count}</td>
+				
 		     <tr>
 		</c:forEach>
 	</table>

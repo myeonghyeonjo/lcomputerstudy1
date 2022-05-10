@@ -53,6 +53,8 @@ public class controller extends HttpServlet {
 		
 		int usercount = 0;
 		int page = 1;
+		int count = 0;
+		
 		String pw = null;
 		String idx = null;
 		HttpSession session = null;
@@ -191,6 +193,17 @@ public class controller extends HttpServlet {
 				
 				
 				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			case "/board-list.do":
 				boardService = BoardService.getInstance();
 				ArrayList<Board> list1 = boardService.getBoards();
@@ -220,7 +233,6 @@ public class controller extends HttpServlet {
 			case "/board-detail.do":
 				board = new Board();
 				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
-				
 				boardService = BoardService.getInstance();
 				board = boardService.getDetail(board);
 				
@@ -265,6 +277,34 @@ public class controller extends HttpServlet {
 				break;
 				
 				
+			case "/board-reply.do":
+				board = new Board();
+				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
+				boardService = BoardService.getInstance();
+				board = boardService.getDetail(board);
+				
+				request.setAttribute("board", board);
+				
+				
+				view = "board/reply";
+				break;
+				
+			case "/board-reply-process.do":
+				board = new Board();
+				board.setb_title(request.getParameter("title"));
+				board.setb_count(0);
+				board.setb_content(request.getParameter("content"));
+				board.setb_date(ndate);
+				board.setb_writer(request.getParameter("writer"));
+				board.setb_group(Integer.parseInt(request.getParameter("b_group")));
+				board.setb_depth(Integer.parseInt(request.getParameter("b_depth")));
+				board.setb_order(Integer.parseInt(request.getParameter("b_order")));
+				
+				boardService = BoardService.getInstance();
+				boardService.insertReply(board);
+						
+				view = "board/insert-result";
+				break;
 		}
 		RequestDispatcher rd = request.getRequestDispatcher(view+".jsp");
 		rd.forward(request, response);
