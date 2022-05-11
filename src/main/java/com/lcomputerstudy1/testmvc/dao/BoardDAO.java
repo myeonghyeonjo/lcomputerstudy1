@@ -69,16 +69,20 @@ public class BoardDAO {
 			
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "insert into board(b_title,b_count,b_content,b_date,b_writer) values(?,?,?,?,?)";
+			String sql = "insert into board(b_title,b_count,b_content,b_date,b_writer, b_group, b_order, b_depth) values(?,?,?,now(),?, 0, 1, 0)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getb_title());
 			pstmt.setInt(2, board.getb_count());
 			pstmt.setString(3, board.getb_content());
-			pstmt.setString(4, board.getb_date());
-			pstmt.setString(5, board.getb_writer());
+			pstmt.setString(4, board.getb_writer());
+			pstmt.executeUpdate();
+			pstmt.close();
+			
+			sql = "update board set b_group = last_insert_id() where b_idx = last_insert_id()";
+			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
 		} catch( Exception ex) {
-			System.out.println("SQLException : "+ex.getMessage());
+			ex.printStackTrace();
 		} finally {
 			try {
 				if (pstmt != null) pstmt.close();
@@ -93,7 +97,7 @@ public class BoardDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		int ncount = board.getb_count()+1;
+		int ncount = board.getb_count();
 		
 		
 		
@@ -111,7 +115,7 @@ public class BoardDAO {
        	       	board.setb_writer(rs.getString("b_writer"));
        	       	board.setb_date(rs.getString("b_date"));
        	       	board.setb_content(rs.getString("b_content"));
-       	       	board.setb_count(ncount);
+       	       	board.setb_count(rs.getInt("b_count"));
        	       	board.setb_idx(rs.getInt("b_idx"));
 	        }
 		} catch (Exception e) {
@@ -127,6 +131,8 @@ public class BoardDAO {
 		}
 		
 		return board;
+		
+		
 	}
 	public void editBoard(Board board) {
 		Connection conn = null;
@@ -134,14 +140,12 @@ public class BoardDAO {
 			
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "UPDATE board SET b_title = ?,b_writer = ?,b_count = ?,b_content = ?,b_date = ? where b_idx= ?";
+			String sql = "UPDATE board SET b_title = ?,b_writer = ?,b_content = ? where b_idx= ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getb_title());
-			pstmt.setString(2, board.getb_writer());
-			pstmt.setInt(3, board.getb_count());
-			pstmt.setString(4, board.getb_content());
-			pstmt.setString(5, board.getb_date());
-			pstmt.setInt(6, board.getb_idx());
+			pstmt.setString(2, board.getb_writer());;
+			pstmt.setString(3, board.getb_content());
+			pstmt.setInt(4, board.getb_idx());
 			pstmt.executeUpdate();
 		} catch( Exception ex) {
 			System.out.println("SQLException : "+ex.getMessage());
@@ -194,6 +198,32 @@ public class BoardDAO {
 			pstmt.executeUpdate();
 		} catch( Exception ex) {
 			System.out.println("SQLException : "+ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	
+	
+	
+	public void updatecount(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "UPDATE board SET b_count = b_count+1 where b_idx= ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, board.getb_idx());
+			pstmt.executeUpdate();
+		} catch( Exception ex) {
+			ex.printStackTrace();
 		} finally {
 			try {
 				if (pstmt != null) pstmt.close();
