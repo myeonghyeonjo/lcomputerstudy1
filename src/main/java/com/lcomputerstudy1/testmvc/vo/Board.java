@@ -9,6 +9,11 @@ public class Board {
 	private String b_date;
 	private String b_writer;
 	private int b_idx;
+	private int b_group;
+	private int b_order;
+	private int b_depth;
+	
+	
 	
 	public String getb_title() {
 		return  b_title;
@@ -45,5 +50,23 @@ public class Board {
 	}
 	public void setb_idx(int b_idx) {
 		this.b_idx = b_idx;
+	}
+	public int getb_group() {
+		return b_group;
+	}
+	public void setb_group(int b_group) {
+		this.b_group=b_group;
+	}
+	public int getb_order() {
+		return b_order;
+	}
+	public void setb_order(int b_order) {
+		this.b_order=b_order;
+	}
+	public int getb_depth() {
+		return b_depth;
+	}
+	public void setb_depth(int b_depth) {
+		this.b_depth=b_depth;
 	}
 }

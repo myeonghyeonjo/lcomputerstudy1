@@ -50,4 +50,9 @@ public class BoardService {
 		dao.updatecount(board);
 		
 	}
+
+	public void insertReply(Board board) {
+		dao.insertReply(board);
+		
+	}
 }

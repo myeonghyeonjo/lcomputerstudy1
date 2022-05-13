@@ -1,5 +1,0 @@
-INDEX VERSION 1.131+C:\Users\Á¶¸íÇö\Documents\GitHub\lcomputerstudy1\lcomputerstudy1\.metadata\.plugins\org.eclipse.jdt.core
-2663996415.index
-1992318237.index
-1865797976.index
-3676997926.index

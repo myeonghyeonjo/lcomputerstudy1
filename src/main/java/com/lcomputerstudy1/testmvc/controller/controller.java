@@ -14,9 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.lcomputerstudy1.testmvc.service.BoardService;
+import com.lcomputerstudy1.testmvc.service.ReplyService;
 import com.lcomputerstudy1.testmvc.service.UserService;
 import com.lcomputerstudy1.testmvc.vo.Board;
 import com.lcomputerstudy1.testmvc.vo.Pagination;
+import com.lcomputerstudy1.testmvc.vo.Reply;
 import com.lcomputerstudy1.testmvc.vo.User;
 
 @WebServlet("*.do")
@@ -50,6 +52,9 @@ public class controller extends HttpServlet {
 		
 		Board board = null;
 		BoardService boardService = null;
+		
+		Reply reply = null;
+		ReplyService replyService = null;
 		
 		int usercount = 0;
 		int page = 1;
@@ -95,7 +100,7 @@ public class controller extends HttpServlet {
 				user.setU_age(request.getParameter("age"));
 				
 				userService = UserService.getInstance();
-				userService.insertUser(user);
+				userService.insertUser(user); 
 						
 				view = "user/insert-result";
 				break;
@@ -108,6 +113,7 @@ public class controller extends HttpServlet {
 				
 				request.setAttribute("user", user);
 				
+			
 				view = "user/Detail";
 				break;
 			case "/user-edit.do":				
@@ -233,19 +239,22 @@ public class controller extends HttpServlet {
 			case "/board-detail.do":
 				board = new Board();
 				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
-				
-				
-			
-				
-				
-				
-				
-				
 				boardService = BoardService.getInstance();
 				board = boardService.getDetail(board);
 				
-				request.setAttribute("board", board);
 				
+				
+				
+				replyService = ReplyService.getInstance();
+				ArrayList<Reply> list2 = replyService.getRelpys();
+				request.setAttribute("list", list2);
+				
+				
+				
+				
+				
+				
+				request.setAttribute("board", board);
 				view = "board/detail";
 				break;
 
@@ -287,10 +296,71 @@ public class controller extends HttpServlet {
 				
 			case "/board-reply.do":
 				board = new Board();
+				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
+				boardService = BoardService.getInstance();
+				board = boardService.getDetail(board);
+				
+				request.setAttribute("board", board);
 				
 				
 				view = "board/reply";
+				break;
 				
+			case "/board-reply-process.do":
+				board = new Board();
+				board.setb_title(request.getParameter("title"));
+				board.setb_count(0);
+				board.setb_content(request.getParameter("content"));
+				board.setb_date(ndate);
+				board.setb_writer(request.getParameter("writer"));
+				board.setb_group(Integer.parseInt(request.getParameter("b_group")));
+				board.setb_depth(Integer.parseInt(request.getParameter("b_depth")));
+				board.setb_order(Integer.parseInt(request.getParameter("b_order")));
+				
+				boardService = BoardService.getInstance();
+				boardService.insertReply(board);
+						
+				view = "board/insert-result";
+				break;
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			case "/reply-insert-process.do":
+				reply = new Reply();
+				reply.setr_idx(Integer.parseInt(request.getParameter("b_idx")));
+				reply.setr_content(request.getParameter("content"));
+				reply.setr_date(ndate);
+				reply.setr_writer(request.getParameter("writer"));
+				
+				replyService = ReplyService.getInstance();
+				replyService.insertReply(reply);
+				
+				view = "reply/result";
+				break;
 				
 		}
 		RequestDispatcher rd = request.getRequestDispatcher(view+".jsp");
@@ -320,5 +390,4 @@ public class controller extends HttpServlet {
 		return command;
 	}
 }
-
 

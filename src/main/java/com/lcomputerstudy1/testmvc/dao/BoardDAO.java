@@ -33,7 +33,7 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from board";
+			String query = "select * from board order by b_group, b_order, b_depth desc";
 	       	pstmt = conn.prepareStatement(query);
 	        rs = pstmt.executeQuery();
 	        list = new ArrayList<Board>();
@@ -46,6 +46,9 @@ public class BoardDAO {
 	        	Board.setb_date(rs.getString("b_date"));
 	        	Board.setb_writer(rs.getString("b_writer"));
 	        	Board.setb_idx(rs.getInt("b_idx"));
+	        	Board.setb_group(rs.getInt("b_group"));
+	        	Board.setb_order(rs.getInt("b_order"));
+	        	Board.setb_depth(rs.getInt("b_depth"));
 	        	
 	        	list.add(Board);
 	        }
@@ -117,6 +120,11 @@ public class BoardDAO {
        	       	board.setb_content(rs.getString("b_content"));
        	       	board.setb_count(rs.getInt("b_count"));
        	       	board.setb_idx(rs.getInt("b_idx"));
+       	       	
+       	       	board.setb_order(rs.getInt("b_order"));
+       	       	board.setb_group(rs.getInt("b_group"));
+       	       	board.setb_depth(rs.getInt("b_depth"));
+       	       	
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -234,6 +242,45 @@ public class BoardDAO {
 		}
 	}
 
+	public void insertReply(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "insert into board(b_title,b_count,b_content,b_date,b_writer, b_group, b_order, b_depth) values(?,?,?,now(),?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, board.getb_title());
+			pstmt.setInt(2, board.getb_count());
+			pstmt.setString(3, board.getb_content());
+			pstmt.setString(4, board.getb_writer());
+			pstmt.setInt(5, board.getb_group());
+			pstmt.setInt(6, board.getb_order()+1);
+			pstmt.setInt(7,board.getb_depth()+1);
+			pstmt.executeUpdate();
+			pstmt.close();
+				
+			
+			
+			
+			
+			String sql1 = "UPDATE board SET b_order = b_order+1 where b_group = ? and b_order > ?";
+			pstmt = conn.prepareStatement(sql1);
+			pstmt.setInt(1, board.getb_group());
+			pstmt.setInt(2, board.getb_order());
+			pstmt.executeUpdate();
+			
+		} catch( Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}	
 }
 
 
