@@ -325,30 +325,6 @@ public class controller extends HttpServlet {
 				
 				
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 			case "/reply-insert-process.do":
 				reply = new Reply();
 				reply.setr_idx(Integer.parseInt(request.getParameter("b_idx")));
@@ -356,10 +332,17 @@ public class controller extends HttpServlet {
 				reply.setr_date(ndate);
 				reply.setr_writer(request.getParameter("writer"));
 				
+				reply.setr_group(Integer.parseInt(request.getParameter("b_group")));
+				reply.setr_depth(Integer.parseInt(request.getParameter("b_depth")));
+				reply.setr_order(Integer.parseInt(request.getParameter("b_order")));
+				
 				replyService = ReplyService.getInstance();
 				replyService.insertReply(reply);
 				
 				view = "reply/result";
+				break;
+			case "/board-reply-insert.do":
+				view = "board/reply-insert";
 				break;
 				
 		}

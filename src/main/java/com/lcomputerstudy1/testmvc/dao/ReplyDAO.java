@@ -24,13 +24,17 @@ public class ReplyDAO {
 			
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "insert into reply(r_content,r_writer,r_date,r_idx ) values(?,?,now(),?)";
+			String sql = "insert into reply(r_content,r_writer,r_date,r_idx,r_group,r_order,r_depth ) values(?,?,now(),?,0,1,0)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reply.getr_content());
 			pstmt.setString(2, reply.getr_writer());
 			pstmt.setInt(3, reply.getr_idx());
+			
 			pstmt.executeUpdate();
 			pstmt.close();
+			
+			
+			
 		} catch( Exception ex) {
 			ex.printStackTrace();
 		} finally {

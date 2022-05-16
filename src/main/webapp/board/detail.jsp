@@ -61,7 +61,10 @@
 	</table>
 	
 <form  action="reply-insert-process.do" name="reply" method="post">
-<input type="hidden" name="b_idx" value="${board.b_idx}">
+	<input type="hidden" name="b_idx" value="${board.b_idx}">
+	<input type="hidden" name="b_group" value="${board.b_group}">
+	<input type="hidden" name="b_order" value="${board.b_order}">
+	<input type="hidden" name="b_depth" value="${board.b_depth}">
 	<p> 글쓴이 : <input type="text" name="writer"></p>
 	<p> 내용 : <input type="text" name="content"p> 
 	<input type="submit" value="댓글등록"></p>

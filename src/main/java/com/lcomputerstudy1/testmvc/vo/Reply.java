@@ -7,7 +7,9 @@ public class Reply {
 	private String r_date;
 	private String r_writer;
 	private int r_idx;
-	
+	private int r_depth;
+	private int r_order;
+	private int r_group;
 	
 	
 	public String getr_content() {
@@ -28,10 +30,29 @@ public class Reply {
 	public void setr_date(String r_date) {
 		this.r_date = r_date;
 	}
+	public int getr_order() {
+		return r_order;
+	}
+	public void setr_order(int r_order) {
+		this.r_order = r_order;
+	}
+	public int getr_group() {
+		return r_group;
+	}
+	public void setr_group(int r_group) {
+		this.r_group = r_group;
+	}
+	public int getr_depth() {
+		return r_depth;
+	}
+	public void setr_depth(int r_depth) {
+		this.r_depth = r_depth;
+	}
 	public int getr_idx() {
 		return r_idx;
 	}
 	public void setr_idx(int r_idx) {
 		this.r_idx = r_idx;
 	}
+	
 }
