@@ -241,7 +241,7 @@ public class controller extends HttpServlet {
 				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
 				boardService = BoardService.getInstance();
 				board = boardService.getDetail(board);
-				
+				//ㅇ
 				
 				
 				
