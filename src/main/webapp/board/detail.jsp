@@ -58,7 +58,7 @@
 			
 			
 		</tr>
-	</table>
+	</table>ddddddddddddddddddddddddddddddddddddddd
 	
 <form  action="reply-insert-process.do" name="reply" method="post">
 	<input type="hidden" name="b_idx" value="${board.b_idx}">
