@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.lcomputerstudy1.testmvc.database.DBConnection;
+import com.lcomputerstudy1.testmvc.vo.Board;
 import com.lcomputerstudy1.testmvc.vo.Reply;
 
 public class ReplyDAO {
@@ -24,16 +25,25 @@ public class ReplyDAO {
 			
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "insert into reply(r_content,r_writer,r_date,r_idx,r_group,r_order,r_depth ) values(?,?,now(),?,0,1,0)";
+			String sql = "insert into reply(r_content,r_date,r_writer, r_group, r_order, r_depth) values(?,now(),?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reply.getr_content());
 			pstmt.setString(2, reply.getr_writer());
-			pstmt.setInt(3, reply.getr_idx());
-			
+			pstmt.setInt(3, reply.getr_group());
+			pstmt.setInt(4, reply.getr_order()+1);
+			pstmt.setInt(5, reply.getr_depth()+1);
 			pstmt.executeUpdate();
 			pstmt.close();
+				
 			
 			
+			
+			
+			String sql1 = "UPDATE reply SET r_order = r_order+1 where r_group = ? and r_order = ?";
+			pstmt = conn.prepareStatement(sql1);
+			pstmt.setInt(1, reply.getr_group());
+			pstmt.setInt(2, reply.getr_order());
+			pstmt.executeUpdate();
 			
 		} catch( Exception ex) {
 			ex.printStackTrace();
@@ -45,7 +55,8 @@ public class ReplyDAO {
 				e.printStackTrace();
 			}
 		}
-	}
+	}	
+	
 
 	public static ReplyDAO getInstance() {
 		if(dao == null) {
@@ -63,7 +74,7 @@ public class ReplyDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from reply";
+			String query = "select * from reply order by r_order desc";
 	       	pstmt = conn.prepareStatement(query);
 	       
 	        rs = pstmt.executeQuery();
@@ -75,7 +86,9 @@ public class ReplyDAO {
 	        	Reply.setr_writer(rs.getString("r_writer"));
 	        	Reply.setr_idx(rs.getInt("r_idx"));
 	        	Reply.setr_content(rs.getString("r_content"));
-	        	
+	        	Reply.setr_order(rs.getInt("r_order"));
+	        	Reply.setr_depth(rs.getInt("r_depth"));
+	        	Reply.setr_group(rs.getInt("r_group"));
 	        	
 	        	list.add(Reply);
 	        }
@@ -93,4 +106,134 @@ public class ReplyDAO {
 		
 		return list;
 	}
+
+
+	public Reply getDetail(Reply reply) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from reply where r_group = ?";
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setInt(1, reply.getr_idx());
+	        rs = pstmt.executeQuery();
+	        
+	        while(rs.next()){
+	        	
+	        	reply= new Reply();
+       	       	reply.setr_writer(rs.getString("r_writer"));
+       	       	reply.setr_date(rs.getString("r_date"));
+       	       	reply.setr_content(rs.getString("r_content"));
+       	       	reply.setr_idx(rs.getInt("r_idx"));
+       	       	reply.setr_order(rs.getInt("r_order"));
+       	       	reply.setr_group(rs.getInt("r_group"));
+       	       	reply.setr_depth(rs.getInt("r_depth"));
+       	       	
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return reply;
+		
+		
+	}
+
+	public Reply getDetails(Reply reply) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from reply where r_idx = ?";
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setInt(1, reply.getr_idx());
+	        rs = pstmt.executeQuery();
+	        
+	        while(rs.next()){
+	        	
+	        	reply= new Reply();
+       	       	reply.setr_writer(rs.getString("r_writer"));
+       	       	reply.setr_date(rs.getString("r_date"));
+       	       	reply.setr_content(rs.getString("r_content"));
+       	       	reply.setr_idx(rs.getInt("r_idx"));
+       	       	reply.setr_order(rs.getInt("r_order"));
+       	       	reply.setr_group(rs.getInt("r_group"));
+       	       	reply.setr_depth(rs.getInt("r_depth"));
+       	       	
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return reply;
+		
+		
+	}
+	
+	
+	
+	public void insertboardReply(Reply reply) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "insert into reply(r_content,r_date,r_writer, r_group, r_order, r_depth) values(?,now(),?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reply.getr_content());
+			pstmt.setString(2, reply.getr_writer());
+			pstmt.setInt(3, reply.getr_group());
+			pstmt.setInt(4, reply.getr_order());
+			pstmt.setInt(5, reply.getr_depth());
+			pstmt.executeUpdate();
+			pstmt.close();
+				
+			
+			
+			
+			String sql1 = "UPDATE reply SET r_order = r_order+1 where  r_order >= ?";
+			pstmt = conn.prepareStatement(sql1);
+			pstmt.setInt(1, reply.getr_order());
+			pstmt.executeUpdate();
+			
+			
+		} catch( Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+
+	
 }

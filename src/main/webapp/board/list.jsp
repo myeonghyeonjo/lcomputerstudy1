@@ -32,8 +32,8 @@
 		<tr>
 			<th>제목</th>
 			<th>작성자</th>
-			<th>작성일</th>
 			<th>조회수</th>
+			<th>작성일</th>
 			
 		</tr>
 		<c:forEach items="${list}" var="item">
@@ -48,8 +48,8 @@
 					<a href="board-detail.do?b_idx=${item.b_idx}">${item.b_title}</a>
 					</td>
 			 		<td>${item.b_writer}</td>
-					<td>${item.b_date}</td> 
 					<td>${item.b_count}</td>
+					<td>${item.b_date}</td> 
 				
 		     <tr>
 		</c:forEach>

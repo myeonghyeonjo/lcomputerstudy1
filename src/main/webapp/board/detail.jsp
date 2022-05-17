@@ -16,7 +16,7 @@
 	table tr td, table tr th {
 		border:1px solid #818181;
 		width:200px;
-		text-align:center;
+		
 	}
 	a {
 		text-decoration:none;
@@ -58,13 +58,13 @@
 			
 			
 		</tr>
-	</table>ddddddddddddddddddddddddddddddddddddddd
+	</table>
 	
 <form  action="reply-insert-process.do" name="reply" method="post">
-	<input type="hidden" name="b_idx" value="${board.b_idx}">
-	<input type="hidden" name="b_group" value="${board.b_group}">
-	<input type="hidden" name="b_order" value="${board.b_order}">
-	<input type="hidden" name="b_depth" value="${board.b_depth}">
+<input type="hidden" name="r_idx" value="${board.b_idx}">
+<input type="hidden" name="r_order" value="1">
+<input type="hidden" name="r_depth" value="0">
+<input type="hidden" name="r_group" value="${board.b_idx}">
 	<p> 글쓴이 : <input type="text" name="writer"></p>
 	<p> 내용 : <input type="text" name="content"p> 
 	<input type="submit" value="댓글등록"></p>
@@ -113,16 +113,30 @@
 		</tr>
 		<c:forEach items="${list}" var="item">
 			 <tr>
-			 			<c:if test="${item.r_idx == board.b_idx}">
-			 			<td>
-			 			<a href="board-reply-insert.do?b_idx=${board.b_idx}">${item.r_content}</a>
-			 			
-			 			</td>
-							<td>${item.r_writer}</td>
+			 			<c:if test="${item.r_group == board.b_idx}">
+			 					
+			 				<td> 
+			 				<c:if test="${item.r_depth > 0}">
+                        		<c:forEach begin="1" end="${item.r_depth}">
+                            		&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
+                        		</c:forEach>
+                        			RE : 
+                    		</c:if>
+							<a href="reply-reply.do?r_idx=${item.r_idx}">${item.r_writer}</a>
+							</td>
+			 				<td>${item.r_content}</td>
 							<td>${item.r_date}</td>
+							
+							
+							
+						
                     	</c:if>
 			  <tr>
 		</c:forEach>
+		
+		
+		
+		
 	</table>
 </body>
 </html>

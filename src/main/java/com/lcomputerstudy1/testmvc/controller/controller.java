@@ -241,12 +241,12 @@ public class controller extends HttpServlet {
 				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
 				boardService = BoardService.getInstance();
 				board = boardService.getDetail(board);
-				//ㅇ
+				
 				
 				
 				
 				replyService = ReplyService.getInstance();
-				ArrayList<Reply> list2 = replyService.getRelpys();
+				ArrayList<Reply> list2 = replyService.getReplys();
 				request.setAttribute("list", list2);
 				
 				
@@ -325,24 +325,79 @@ public class controller extends HttpServlet {
 				
 				
 				
-			case "/reply-insert-process.do":
+			case "/reply-reply.do":
+				
+				
+				
+				
+				
+				
+				
+				
 				reply = new Reply();
-				reply.setr_idx(Integer.parseInt(request.getParameter("b_idx")));
+				reply.setr_idx(Integer.parseInt(request.getParameter("r_idx")));
+				replyService = ReplyService.getInstance();
+				reply = replyService.getDetails(reply);
+				
+				request.setAttribute("reply", reply);
+				
+				
+				view = "reply/reply-insert";
+				break;
+				
+				
+			case "/reply-reply-process.do":
+				
+				reply = new Reply();
+			
 				reply.setr_content(request.getParameter("content"));
 				reply.setr_date(ndate);
 				reply.setr_writer(request.getParameter("writer"));
-				
-				reply.setr_group(Integer.parseInt(request.getParameter("b_group")));
-				reply.setr_depth(Integer.parseInt(request.getParameter("b_depth")));
-				reply.setr_order(Integer.parseInt(request.getParameter("b_order")));
-				
+				reply.setr_group(Integer.parseInt(request.getParameter("r_group")));
+				reply.setr_order(Integer.parseInt(request.getParameter("r_order")));
+				reply.setr_depth(Integer.parseInt(request.getParameter("r_depth")));
 				replyService = ReplyService.getInstance();
 				replyService.insertReply(reply);
+						
+				view = "board/insert-result";
+				break;
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			case "/reply-insert-process.do":
+				reply = new Reply();
+				reply.setr_idx(Integer.parseInt(request.getParameter("r_idx")));
+				reply.setr_content(request.getParameter("content"));
+				reply.setr_date(ndate);
+				reply.setr_writer(request.getParameter("writer"));
+				reply.setr_group(Integer.parseInt(request.getParameter("r_idx")));
+				reply.setr_order(Integer.parseInt(request.getParameter("r_order")));
+				reply.setr_depth(Integer.parseInt(request.getParameter("r_depth")));
+				
+				replyService = ReplyService.getInstance();
+				replyService.insertboardReply(reply);
 				
 				view = "reply/result";
-				break;
-			case "/board-reply-insert.do":
-				view = "board/reply-insert";
 				break;
 				
 		}
@@ -373,4 +428,3 @@ public class controller extends HttpServlet {
 		return command;
 	}
 }
-
