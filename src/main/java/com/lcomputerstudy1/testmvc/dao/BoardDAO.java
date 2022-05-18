@@ -33,7 +33,7 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from board order by b_group, b_order, b_depth desc";
+			String query = "select * from board order by b_order asc";
 	       	pstmt = conn.prepareStatement(query);
 	        rs = pstmt.executeQuery();
 	        list = new ArrayList<Board>();
@@ -72,6 +72,12 @@ public class BoardDAO {
 			
 		try {
 			conn = DBConnection.getConnection();
+			
+			String sql1 = "UPDATE board SET b_order = b_order+1";
+			pstmt = conn.prepareStatement(sql1);
+			pstmt.executeUpdate();
+			
+			
 			String sql = "insert into board(b_title,b_count,b_content,b_date,b_writer, b_group, b_order, b_depth) values(?,?,?,now(),?, 0, 1, 0)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getb_title());
@@ -84,6 +90,9 @@ public class BoardDAO {
 			sql = "update board set b_group = last_insert_id() where b_idx = last_insert_id()";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
+			
+			
+			
 		} catch( Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -248,6 +257,14 @@ public class BoardDAO {
 			
 		try {
 			conn = DBConnection.getConnection();
+			
+			String sql1 = "UPDATE board SET b_order = b_order+1 where b_order > ?";
+			pstmt = conn.prepareStatement(sql1);
+			pstmt.setInt(1, board.getb_order());
+			pstmt.executeUpdate();
+			
+			
+			
 			String sql = "insert into board(b_title,b_count,b_content,b_date,b_writer, b_group, b_order, b_depth) values(?,?,?,now(),?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, board.getb_title());
@@ -264,11 +281,7 @@ public class BoardDAO {
 			
 			
 			
-			String sql1 = "UPDATE board SET b_order = b_order+1 where b_group = ? and b_order > ?";
-			pstmt = conn.prepareStatement(sql1);
-			pstmt.setInt(1, board.getb_group());
-			pstmt.setInt(2, board.getb_order());
-			pstmt.executeUpdate();
+			
 			
 		} catch( Exception ex) {
 			ex.printStackTrace();
@@ -282,6 +295,4 @@ public class BoardDAO {
 		}
 	}	
 }
-
-
 

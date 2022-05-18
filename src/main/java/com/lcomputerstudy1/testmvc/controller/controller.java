@@ -179,6 +179,49 @@ public class controller extends HttpServlet {
 				view = "user/access-denied";
 				break;
 				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			case "/aj-insertComment.do":
+				// insert
+				reply = new Reply();
+				reply.setr_content(request.getParameter("content"));
+				reply.setr_date(ndate);
+				reply.setr_writer(request.getParameter("writer"));
+				reply.setr_group(Integer.parseInt(request.getParameter("b_idx")));
+				reply.setr_order(1);
+				reply.setr_depth(0);
+				
+				replyService = ReplyService.getInstance();
+				replyService.insertReply(reply);
+				
+				
+				board = new Board();
+				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
+				
+				
+				
+				// get list
+				ArrayList<Reply> list3 =replyService.getreplylist(reply);
+				
+				
+				
+				
+		
+				request.setAttribute("list", list3);
+				request.setAttribute("board", board);
+				
+				view = "reply/result";
+				break;
+				
 			
 				
 				
@@ -325,19 +368,11 @@ public class controller extends HttpServlet {
 				
 				
 				
-			case "/reply-reply.do":
-				
-				
-				
-				
-				
-				
-				
-				
+			case "/reply-reply.do":   //대댓글
 				reply = new Reply();
-				reply.setr_idx(Integer.parseInt(request.getParameter("r_idx")));
+				reply.setr_order(Integer.parseInt(request.getParameter("r_order")));
 				replyService = ReplyService.getInstance();
-				reply = replyService.getDetails(reply);
+				reply = replyService.getReplyDetail(reply);
 				
 				request.setAttribute("reply", reply);
 				
@@ -346,7 +381,7 @@ public class controller extends HttpServlet {
 				break;
 				
 				
-			case "/reply-reply-process.do":
+			case "/reply-reply-process.do":   //대댓글
 				
 				reply = new Reply();
 			
@@ -354,10 +389,10 @@ public class controller extends HttpServlet {
 				reply.setr_date(ndate);
 				reply.setr_writer(request.getParameter("writer"));
 				reply.setr_group(Integer.parseInt(request.getParameter("r_group")));
-				reply.setr_order(Integer.parseInt(request.getParameter("r_order")));
-				reply.setr_depth(Integer.parseInt(request.getParameter("r_depth")));
+				reply.setr_order(Integer.parseInt(request.getParameter("r_order"))+1);
+				reply.setr_depth(Integer.parseInt(request.getParameter("r_depth"))+1);
 				replyService = ReplyService.getInstance();
-				replyService.insertReply(reply);
+				replyService.insertReplyReply(reply);
 						
 				view = "board/insert-result";
 				break;
@@ -384,18 +419,17 @@ public class controller extends HttpServlet {
 				
 				
 				
-			case "/reply-insert-process.do":
+			case "/reply-insert-process.do":  //첫번째 댓글
 				reply = new Reply();
-				reply.setr_idx(Integer.parseInt(request.getParameter("r_idx")));
 				reply.setr_content(request.getParameter("content"));
 				reply.setr_date(ndate);
 				reply.setr_writer(request.getParameter("writer"));
-				reply.setr_group(Integer.parseInt(request.getParameter("r_idx")));
+				reply.setr_group(Integer.parseInt(request.getParameter("r_group")));
 				reply.setr_order(Integer.parseInt(request.getParameter("r_order")));
 				reply.setr_depth(Integer.parseInt(request.getParameter("r_depth")));
 				
 				replyService = ReplyService.getInstance();
-				replyService.insertboardReply(reply);
+				replyService.insertReply(reply);
 				
 				view = "reply/result";
 				break;

@@ -39,14 +39,16 @@ public class ReplyService {
 		return dao.getDetail(reply);
 	}
 
-	public void insertboardReply(Reply reply) {
-		dao.insertboardReply(reply);
+	public Reply getReplyDetail(Reply reply) {
+		return dao.getReplyDetail(reply);
+	}
+
+	public void insertReplyReply(Reply reply) {
+		dao.insertReplyReply(reply);
 		
 	}
 
-	public Reply getDetails(Reply reply) {
-		return dao.getDetails(reply);
+	public ArrayList<Reply> getreplylist(Reply reply) {
+		return dao.getreplylist(reply);
 	}
-
-	
 }

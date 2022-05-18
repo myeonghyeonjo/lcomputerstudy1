@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 저장</title>
 </head>
 <body>
-	<h1> 엘컴퓨터학원에 오신것을 환영합니다.</h1>
+<h1>댓글등록 완료</h1>
+<a href="/lcomputerstudy1/board-list.do">돌아가기1</a>
 </body>
 </html>

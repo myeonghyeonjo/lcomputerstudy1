@@ -6,7 +6,7 @@
 <title>게시글 추가</title>
 </head>
 <body>
-<h2> 댓글의댓글등록fdfd </h2>
+<h2> 댓글의댓글등fdfdfdf록 </h2>
 <form action="reply-reply-process.do" name="reply" method="post">
 	<input type="hidden" name="r_group" value="${reply.r_group}">
 	<input type="hidden" name="r_order" value="${reply.r_order}">
