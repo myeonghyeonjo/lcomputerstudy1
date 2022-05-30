@@ -7,7 +7,7 @@
 <title>게시글 저장</title>
 </head>
 <body>
-<h1>게시글 저장 완료</h1>
+<h1>댓글등록 완료</h1>
 <a href="/lcomputerstudy1/board-list.do">돌아가기1</a>
 </body>
 </html>

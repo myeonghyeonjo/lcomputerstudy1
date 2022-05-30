@@ -31,7 +31,24 @@ public class ReplyService {
 	public void insertReply(Reply reply) {
 		dao.insertReply(reply);
 	}
-	public ArrayList<Reply> getRelpys() {
+	public ArrayList<Reply> getReplys() {
 		return dao.getReplys();
+	}
+
+	public Reply getDetail(Reply reply) {
+		return dao.getDetail(reply);
+	}
+
+	public Reply getReplyDetail(Reply reply) {
+		return dao.getReplyDetail(reply);
+	}
+
+	public void insertReplyReply(Reply reply) {
+		dao.insertReplyReply(reply);
+		
+	}
+
+	public ArrayList<Reply> getreplylist(Reply reply) {
+		return dao.getreplylist(reply);
 	}
 }
